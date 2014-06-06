@@ -1099,7 +1099,9 @@ public class CDMAPhone extends PhoneBase {
                 }
 
                 if (DBG) Rlog.d(LOG_TAG, "Baseband version: " + ar.result);
-                setSystemProperty(TelephonyProperties.PROPERTY_BASEBAND_VERSION, (String)ar.result);
+                if (!"".equals((String)ar.result)) {
+                    setSystemProperty(TelephonyProperties.PROPERTY_BASEBAND_VERSION, (String)ar.result);
+                }
             }
             break;
 
@@ -1592,7 +1594,7 @@ public class CDMAPhone extends PhoneBase {
                 getContext().getContentResolver().insert(uri, map);
 
                 // Updates MCC MNC device configuration information
-                MccTable.updateMccMncConfiguration(mContext, operatorNumeric);
+                MccTable.updateMccMncConfiguration(mContext, operatorNumeric, false);
 
                 return true;
             } catch (SQLException e) {
